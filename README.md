@@ -27,11 +27,13 @@ The course-supplied snapshot contained **151,445 rows** covering reported work y
 
 ## Visualizations
 
+![Overview of salary trends and project findings](figures/key-findings.svg)
+
 The project includes nine original charts covering career progression, technical specialties, remote work, salary dispersion, and partial-year trends. The figures were extracted without redrawing from the team's presentation; we will add the revised PDF separately.
 
 **[Browse the figure gallery](figures/README.md)** · [**Explore the interactive Shiny dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/)
 
-Once the corresponding image files are uploaded to `figures/`, the gallery displays each chart at high resolution. The complete chart-generating R code remains in [`analysis.qmd`](analysis.qmd).
+The gallery currently provides a clean chart index and a visual overview. High-resolution original JPG files can be added once uploaded to `figures/`. The complete chart-generating R code remains in [`analysis.qmd`](analysis.qmd).
 
 ## Methods and tools
 
