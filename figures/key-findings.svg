@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 525" role="img" aria-labelledby="ttl dsc">
+<title id="ttl">Salary analytics at a glance</title>
+<desc id="dsc">Four experience-tier median salaries from Entry 85,469 dollars to Executive 190,000 dollars; 151,445 source rows, 71,913 distinct after exact deduplication, and a non-significant remote salary association of minus 0.7 percent with p equals 0.141.</desc>
+<rect width="1200" height="525" rx="23" fill="#F6F9FC"/>
+<rect x="0" y="0" width="1200" height="91" rx="23" fill="#102940"/>
+<rect x="0" y="62" width="1200" height="29" fill="#102940"/>
+<rect x="28" y="30" width="5" height="36" rx="2.5" fill="#F5BD49"/>
+<text x="51" y="46" font-size="26" font-weight="700" font-family="Arial, sans-serif" fill="#FFFFFF">Global Data &amp; AI Workforce</text>
+<text x="52" y="70" font-size="15" font-family="Arial, sans-serif" fill="#A9CFDC">Salary analytics  /  Team Libeccio  /  2026</text>
+<g font-family="Arial, sans-serif">
+<rect x="26" y="109" width="671" height="374" rx="17" fill="#FFFFFF" stroke="#DDE7EE"/>
+<text x="52" y="148" font-weight="700" font-size="24" fill="#17304D">Median pay rises across experience tiers</text>
+<text x="53" y="171" font-size="14" fill="#64748B">Annual reported base salary (USD) • group medians</text>
+<text x="64" y="214" font-size="18" fill="#334155" font-weight="600">Entry</text>
+<rect x="179" y="195" width="330" height="29" rx="7" fill="#EDF2F7"/>
+<rect x="179" y="195" width="141" height="29" rx="7" fill="#3D83B5"/>
+<text x="530" y="215" font-size="18" fill="#17304D" font-weight="700">$85,469</text>
+<text x="64" y="273" font-size="18" fill="#334155" font-weight="600">Mid</text>
+<rect x="179" y="254" width="330" height="29" rx="7" fill="#EDF2F7"/>
+<rect x="179" y="254" width="201" height="29" rx="7" fill="#3D83B5"/>
+<text x="530" y="274" font-size="18" fill="#17304D" font-weight="700">$122,000</text>
+<text x="64" y="332" font-size="18" fill="#334155" font-weight="600">Senior</text>
+<rect x="179" y="313" width="330" height="29" rx="7" fill="#EDF2F7"/>
+<rect x="179" y="313" width="258" height="29" rx="7" fill="#3D83B5"/>
+<text x="530" y="333" font-size="18" fill="#17304D" font-weight="700">$156,160</text>
+<text x="64" y="391" font-size="18" fill="#334155" font-weight="600">Executive</text>
+<rect x="179" y="372" width="330" height="29" rx="7" fill="#EDF2F7"/>
+<rect x="179" y="372" width="314" height="29" rx="7" fill="#087E8B"/>
+<text x="530" y="392" font-size="18" fill="#17304D" font-weight="700">$190,000</text>
+<text x="53" y="467" font-size="13" fill="#66788A">Different worker groups — not observed individual raises</text>
+<rect x="716" y="109" width="457" height="114" rx="17" fill="#FFFFFF" stroke="#DDE7EE"/>
+<rect x="739" y="129" width="5" height="73" rx="2" fill="#087E8B"/>
+<text x="761" y="151" font-size="13" fill="#64748B">SOURCE ROWS</text>
+<text x="761" y="190" font-size="36" font-weight="700" fill="#17304D">151,445</text>
+<rect x="716" y="233" width="457" height="114" rx="17" fill="#FFFFFF" stroke="#DDE7EE"/>
+<rect x="739" y="253" width="5" height="73" rx="2" fill="#087E8B"/>
+<text x="761" y="275" font-size="13" fill="#64748B">DISTINCT ROWS AFTER EXACT DEDUPLICATION</text>
+<text x="761" y="314" font-size="36" font-weight="700" fill="#17304D">71,913</text>
+<rect x="716" y="357" width="457" height="126" rx="17" fill="#FFFFFF" stroke="#DDE7EE"/>
+<rect x="739" y="378" width="5" height="84" rx="2" fill="#F5BD49"/>
+<text x="761" y="401" font-size="13" fill="#64748B">ADJUSTED FULLY REMOTE ASSOCIATION</text>
+<text x="761" y="440" font-size="35" font-weight="700" fill="#17304D">−0.7%</text>
+<text x="927" y="439" font-size="19" fill="#64748B">p = 0.141</text>
+<text x="761" y="463" font-size="13" fill="#64748B">Not statistically significant; not causal</text>
+</g>
+<text x="28" y="512" font-family="Arial, sans-serif" font-size="12" fill="#64748B">Source: aijobs.net snapshot dated August 3, 2025; see analysis.qmd for methods, limitations, and all original figures.</text>
+</svg>
