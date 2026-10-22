@@ -27,13 +27,19 @@ The course-supplied snapshot contained **151,445 rows** covering reported work y
 
 ## Visualizations
 
-![Overview of salary trends and project findings](figures/key-findings.svg)
+A selection of original figures from the project is shown below. **[Explore all nine figures →](figures/README.md)** for salary progression, distributions, outliers, technical role comparisons, and partial-year trends.
 
-The project includes nine original charts covering career progression, technical specialties, remote work, salary dispersion, and partial-year trends. The figures were extracted without redrawing from the team's presentation; we will add the revised PDF separately.
+### Experience-tier medians
 
-**[Browse the figure gallery](figures/README.md)** · [**Explore the interactive Shiny dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/)
+![Median base salary increases from entry to executive experience categories](figures/01-median-salary-by-experience.png)
 
-The gallery currently provides a clean chart index and a visual overview. High-resolution original JPG files can be added once uploaded to `figures/`. The complete chart-generating R code remains in [`analysis.qmd`](analysis.qmd).
+Different experience categories represent distinct worker groups rather than observed salary raises for the same employees.
+
+### Remote-work salary distributions
+
+![Boxplots comparing on-site, hybrid and fully remote salary distributions](figures/06-remote-work-salary-distributions.png)
+
+These descriptive distributions are unadjusted; the regression analysis is documented separately in the [Quarto report](analysis.qmd).
 
 ## Methods and tools
 
