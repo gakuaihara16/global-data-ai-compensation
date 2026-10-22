@@ -21,3 +21,9 @@ The source CSV columns are:
 `work_year`, `experience_level`, `employment_type`, `job_title`, `salary`, `salary_currency`, `salary_in_usd`, `employee_residence`, `remote_ratio`, `company_location`, `company_size`.
 
 **Data caveats:** These are anonymous, self-reported salary observations. Distinct rows cannot be assumed to represent distinct people, and identical rows cannot be assumed to represent erroneous duplicate people; removing exact duplicates is an explicit analysis choice. The observations are not a representative sample of the labor market, and salary is not total compensation or adjusted for living costs.
+
+## Browse data directly on GitHub
+
+[**View the 3,000-row CSV preview as a table**](salaries-preview.csv). This is a reproducible simple random sample of 3,000 original rows (Python `random.Random(2026)` sampled row indices without replacement, then kept original row order). It contains all 11 original columns but **is not the analysis dataset**, and sample statistics should not be treated as full-data results.
+
+[**Full original dataset**](salaries.csv.gz): 151,445 records, gzip-compressed. The Quarto report reads the full original file, not the preview. The full uncompressed CSV is too large for GitHub's built-in interactive CSV table preview.
