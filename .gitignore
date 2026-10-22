@@ -1,0 +1,17 @@
+# Local downloaded datasets — do not publish third-party data by default
+data/*
+!data/README.md
+
+# R / Quarto artifacts
+.Rhistory
+.RData
+.Ruserdata
+.Rproj.user/
+.quarto/
+*_cache/
+*_files/
+analysis.html
+
+# OS files
+.DS_Store
+Thumbs.db
