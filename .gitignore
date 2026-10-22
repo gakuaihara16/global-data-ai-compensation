@@ -1,6 +1,7 @@
 # Local downloaded datasets — do not publish third-party data by default
 data/*
 !data/README.md
+!data/salaries.csv.gz
 
 # R / Quarto artifacts
 .Rhistory

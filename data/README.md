@@ -1,13 +1,23 @@
-# Data provenance and access
+# Dataset: Global AI, ML and Data Science salaries
 
-**Source used in the original course analysis:** a course-hosted copy of an aijobs.net salary survey snapshot, dated August 3, 2025.
+This repository contains the **exact source file used in this project**, compressed without changing the CSV records:
 
-**Source URL:** https://stat.cmu.edu/~sgallagh/courses/mads-fall-2026/datavis-36613/data/salaries.csv.gz
+- **File:** [`salaries.csv.gz`](salaries.csv.gz)
+- **Source:** [aijobs.net Global AI/ML/Data Science Salary Index](https://github.com/foorilla/ai-jobs-net-salaries), distributed for this course as an August 3, 2025 snapshot
+- **Upstream license:** [CC0 1.0 / public domain](https://github.com/foorilla/ai-jobs-net-salaries/blob/main/LICENSE). The data publisher permits redistribution and appreciates attribution.
+- **Original records:** 151,445 rows and 11 columns, reporting work years 2020–2025
+- **Records after exact row deduplication in the analysis:** 71,913
+- **Compressed size:** 963,026 bytes
+- **SHA-256 (compressed archive):** `657f7a1b055228943c1c82c404b802453c69ee275d5a9b9e2ac6c8e3756fbd50`
 
-Expected filename for optional local fallback: `data/salaries.csv.gz`.
+## Reproducing the analysis
 
-The Quarto report first checks for that local file. If it is absent, it downloads the compressed CSV from the source URL. The project expects the source's eleven fields, including `salary_in_usd`, `salary`, `salary_currency`, `work_year`, `experience_level`, `job_title`, `employee_residence`, `company_location`, `company_size`, and `remote_ratio`.
+The [Quarto source](../analysis.qmd) reads `data/salaries.csv.gz` first. Because the snapshot is included, you can render the report without fetching salary records from an external server. If the local archive is absent, the report falls back to the original course-hosted file:
 
-Raw data are intentionally absent from this portfolio package. If the hosted copy stops working, obtain a copy through an authorized source and check its permission terms before uploading or redistributing it. Public access alone does not guarantee unrestricted republication rights.
+`https://stat.cmu.edu/~sgallagh/courses/mads-fall-2026/datavis-36613/data/salaries.csv.gz`
 
-**Important:** the 71,913 distinct rows are not established to represent 71,913 unique people. Exact duplicate values can arise from genuinely different submissions when IDs are unavailable. The analysis uses one copy of each distinct row as a stated methodological choice.
+The source CSV columns are:
+
+`work_year`, `experience_level`, `employment_type`, `job_title`, `salary`, `salary_currency`, `salary_in_usd`, `employee_residence`, `remote_ratio`, `company_location`, `company_size`.
+
+**Data caveats:** These are anonymous, self-reported salary observations. Distinct rows cannot be assumed to represent distinct people, and identical rows cannot be assumed to represent erroneous duplicate people; removing exact duplicates is an explicit analysis choice. The observations are not a representative sample of the labor market, and salary is not total compensation or adjusted for living costs.

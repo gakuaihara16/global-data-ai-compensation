@@ -60,20 +60,16 @@ The reproducible report covers an exact-row-duplicate audit; data quality and ge
    ```
 4. Open the generated `analysis.html` in your browser.
 
-The report attempts to load the course-hosted compressed CSV from:
+The exact frozen dataset used for this project is included as [`data/salaries.csv.gz`](data/salaries.csv.gz) (151,445 records, compressed to under 1 MB). **The report loads this local file first**, so the data are available without an external download. The original snapshot is from [aijobs.net's salary dataset](https://github.com/foorilla/ai-jobs-net-salaries), published under [CC0](https://github.com/foorilla/ai-jobs-net-salaries/blob/main/LICENSE). See the [data provenance and limitations](data/README.md).
 
-`https://stat.cmu.edu/~sgallagh/courses/mads-fall-2026/datavis-36613/data/salaries.csv.gz`
-
-If the original link becomes unavailable, and you have permission to use a copy, place a file named `salaries.csv.gz` in `data/` instead. Raw data are **not redistributed** in this repository. See [data notes](data/README.md).
-
-> **Reproducibility note:** This portfolio packaging was statically checked, but I could not run a full R/Quarto render in the preparation environment. Rendering also depends on the availability of the source dataset or a permitted local copy.
+> **Reproducibility note:** This portfolio packaging was statically checked, but I could not run a full R/Quarto render in the preparation environment. Rendering requires R/Quarto and the listed packages; the source salary dataset is already included in this repository.
 
 ## Repository guide
 
 | File | Description |
 | --- | --- |
 | [`analysis.qmd`](analysis.qmd) | Edited public-facing version of the group's Quarto report, with source analysis and charts |
-| [`data/README.md`](data/README.md) | Data provenance, fallback file location, and redistribution notes |
+| [`data/salaries.csv.gz`](data/salaries.csv.gz) | Original frozen salary snapshot (CC0) |\n| [`data/README.md`](data/README.md) | Data provenance, field definitions, and limitations |
 | [`scripts/install_packages.R`](scripts/install_packages.R) | Required R packages |
 
 ## Team and attribution
