@@ -25,6 +25,14 @@ The course-supplied snapshot contained **151,445 rows** covering reported work y
 | Role specialties | Machine Learning / AI, technical leadership, and software/platform engineering show comparatively high reported salary benchmarks. | Based on keyword-classified job titles; results vary by role mix. |
 | Employer size and year | Salary patterns vary across firm sizes and between the 2024 and partial-2025 snapshots. | The sample is highly concentrated in medium-sized firms; 2025 is incomplete. |
 
+## Visualizations
+
+The project includes nine original charts covering career progression, technical specialties, remote work, salary dispersion, and partial-year trends. The figures were extracted without redrawing from the team's presentation; we will add the revised PDF separately.
+
+**[Browse the figure gallery](figures/README.md)** · [**Explore the interactive Shiny dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/)
+
+Once the corresponding image files are uploaded to `figures/`, the gallery displays each chart at high resolution. The complete chart-generating R code remains in [`analysis.qmd`](analysis.qmd).
+
 ## Methods and tools
 
 **R**, **tidyverse / dplyr**, **ggplot2**, **Quarto**, **linear regression**, and an interactive **Shiny** dashboard.
@@ -65,7 +73,7 @@ If the original link becomes unavailable, and you have permission to use a copy,
 **Gaku Aihara · Emily Wang · Snehil Rayal**  
 Team Libeccio, 2026 — collaborative academic project.
 
-The report and slides were jointly produced for a data visualization assignment. The materials do not distinguish each person's individual code contributions, so none are assigned here. This portfolio version retains all three names and preserves the submitted presentation.
+The report and slides were jointly produced for a data visualization assignment. The materials do not distinguish each person's individual code contributions, so none are assigned here. This portfolio version retains all three names; the revised presentation will be added separately.
 
 The published Quarto report includes editorial cleanups and more cautious interpretations; the original team presentation is not included in this repository pending collaborator review. A separate software license is **not** granted here. Before publishing shared slides or code, confirm your collaborators are comfortable with their public release, especially any photographs appearing in the presentation.
 
