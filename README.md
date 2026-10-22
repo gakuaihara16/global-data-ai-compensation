@@ -2,9 +2,7 @@
 
 **Exploratory compensation analysis · R / Quarto · Collaborative course project (2026)**
 
-[**Interactive dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/) · [**Reproducible analysis**](analysis.qmd) · [**Presentation (PDF)**](presentation/TeamLibeccio.pdf)
-
-![Screenshot of the career progression dashboard from the final presentation](assets/dashboard-preview.png)
+[**Interactive dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/) · [**Reproducible analysis**](analysis.qmd)
 
 ## Overview
 
@@ -33,8 +31,6 @@ The course-supplied snapshot contained **151,445 rows** covering reported work y
 
 The reproducible report covers an exact-row-duplicate audit; data quality and geographic summaries; role-family classification; salary medians, IQRs, log-scale boxplots, and heatmaps; comparisons by career stage; and a log-linear regression for remote salary association. The hosted dashboard adds interactive filtering and pay-band exploration. **Its Shiny source code was not provided with these project files, so this repository links to the deployed app rather than claiming to include its code.**
 
-![Salary comparisons by experience level, from the final team presentation](assets/salary-experience-preview.png)
-
 ## Reproduce the report
 
 1. Install [R](https://cran.r-project.org/) and [Quarto](https://quarto.org/docs/get-started/).
@@ -61,8 +57,6 @@ If the original link becomes unavailable, and you have permission to use a copy,
 | File | Description |
 | --- | --- |
 | [`analysis.qmd`](analysis.qmd) | Edited public-facing version of the group's Quarto report, with source analysis and charts |
-| [`presentation/TeamLibeccio.pdf`](presentation/TeamLibeccio.pdf) | Original team presentation, retained without modification |
-| [`assets/`](assets/) | Presentation-derived previews for this README |
 | [`data/README.md`](data/README.md) | Data provenance, fallback file location, and redistribution notes |
 | [`scripts/install_packages.R`](scripts/install_packages.R) | Required R packages |
 
@@ -73,7 +67,7 @@ Team Libeccio, 2026 — collaborative academic project.
 
 The report and slides were jointly produced for a data visualization assignment. The materials do not distinguish each person's individual code contributions, so none are assigned here. This portfolio version retains all three names and preserves the submitted presentation.
 
-The published version of the Quarto report includes clearly marked editorial cleanups and more cautious interpretations; the original team submission should not be confused with this edited portfolio edition. A separate software license is **not** granted here. Before publishing shared slides or code, confirm your collaborators are comfortable with their public release, especially any photographs appearing in the presentation.
+The published Quarto report includes editorial cleanups and more cautious interpretations; the original team presentation is not included in this repository pending collaborator review. A separate software license is **not** granted here. Before publishing shared slides or code, confirm your collaborators are comfortable with their public release, especially any photographs appearing in the presentation.
 
 ## Important limitations
 
