@@ -10,6 +10,12 @@ This project analyzes self-reported **Data Science and AI salaries** to explore 
 
 The course-supplied snapshot contained **151,445 rows** covering reported work years **2020–2025**. After removing **exactly identical rows**, the analysis uses **71,913 distinct records**. The source does not include respondent identifiers, so this processing decision is a modeling choice rather than proof that every repeated row represents the same person.
 
+## Browse the dataset
+
+[**View a 3,000-row CSV table directly on GitHub**](data/salaries-preview.csv) · [**Download the complete compressed dataset**](data/salaries.csv.gz)
+
+The browser-friendly CSV is a reproducible random sample with the same 11 columns as the original file. The analysis uses the **full 151,445-row dataset**, not this preview. See [data documentation](data/README.md).
+
 ## Questions explored
 
 - How do reported salary levels differ between **Entry**, **Mid**, **Senior**, and **Executive** roles?
