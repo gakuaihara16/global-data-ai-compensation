@@ -2,7 +2,7 @@
 
 **Exploratory compensation analysis · R / Quarto · Collaborative course project (2026)**
 
-[**Interactive dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/) · [**Reproducible analysis**](analysis.qmd)
+[**Interactive dashboard ↗**](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/) · [**Final presentation (PDF)**](Compensation_Analysis_Walmart.pdf) · [**Reproducible analysis**](analysis.qmd)
 
 ## Overview
 
@@ -30,6 +30,14 @@ The browser-friendly CSV is a reproducible random sample with the same 11 column
 | Remote status | Adjusted fully remote coefficient corresponds to approximately **−0.7%** relative to on-site (**p = 0.141**). | No statistically detectable difference in this model; **not proof of equal pay**. |
 | Role specialties | Machine Learning / AI, technical leadership, and software/platform engineering show comparatively high reported salary benchmarks. | Based on keyword-classified job titles; results vary by role mix. |
 | Employer size and year | Salary patterns vary across firm sizes and between the 2024 and partial-2025 snapshots. | The sample is highly concentrated in medium-sized firms; 2025 is incomplete. |
+
+## Final presentation and consulting pitch
+
+[**View the final 21-slide presentation (PDF) →**](Compensation_Analysis_Walmart.pdf)
+
+The team presented its compensation findings as a **simulated executive-search consulting pitch**, proposing Walmart Global Tech as a potential client for Libeccio. The deck connects descriptive statistics and regression findings to recruiting priorities, including experience-tier compensation, remote-work pay differences, and salary patterns across technical specialties. It also includes an executive summary, proposed recruiting next steps, and supporting charts in an appendix, including a view of the interactive dashboard.
+
+**Context:** This was a collaborative course presentation, **not an engagement commissioned by Walmart**. The analysis describes reported compensation patterns and should not be interpreted as evidence of Walmart's specific hiring demand.
 
 ## Visualizations
 
@@ -75,7 +83,9 @@ The exact frozen dataset used for this project is included as [`data/salaries.cs
 | File | Description |
 | --- | --- |
 | [`analysis.qmd`](analysis.qmd) | Edited public-facing version of the group's Quarto report, with source analysis and charts |
-| [`data/salaries.csv.gz`](data/salaries.csv.gz) | Original frozen salary snapshot (CC0) |\n| [`data/README.md`](data/README.md) | Data provenance, field definitions, and limitations |
+| [`Compensation_Analysis_Walmart.pdf`](Compensation_Analysis_Walmart.pdf) | Final team presentation: analysis, executive summary, and simulated Walmart recruiting pitch |
+| [`data/salaries.csv.gz`](data/salaries.csv.gz) | Original frozen salary snapshot (CC0) |
+| [`data/README.md`](data/README.md) | Data provenance, field definitions, and limitations |
 | [`scripts/install_packages.R`](scripts/install_packages.R) | Required R packages |
 
 ## Team and attribution
@@ -83,9 +93,9 @@ The exact frozen dataset used for this project is included as [`data/salaries.cs
 **Gaku Aihara · Emily Wang · Snehil Rayal**  
 Team Libeccio, 2026 — collaborative academic project.
 
-The report and slides were jointly produced for a data visualization assignment. The materials do not distinguish each person's individual code contributions, so none are assigned here. This portfolio version retains all three names; the revised presentation will be added separately.
+The report and slides were jointly produced for a data visualization assignment. The materials do not distinguish each person's individual code contributions, so none are assigned here. This portfolio version retains all three team members' names, and the [final team presentation](Compensation_Analysis_Walmart.pdf) is included in the repository.
 
-The published Quarto report includes editorial cleanups and more cautious interpretations; the original team presentation is not included in this repository pending collaborator review. A separate software license is **not** granted here. Before publishing shared slides or code, confirm your collaborators are comfortable with their public release, especially any photographs appearing in the presentation.
+The published Quarto report includes editorial cleanups and more cautious interpretations. A separate software license is **not** granted here. Before making the repository public, confirm your collaborators are comfortable with releasing shared slides and code, especially any photographs appearing in the presentation.
 
 ## Important limitations
 
