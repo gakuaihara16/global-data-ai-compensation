@@ -1,57 +1,60 @@
 ---
-title: "Global Data & AI Workforce Compensation Analytics"
-subtitle: "Exploratory salary analysis and an executive-search case study"
+title: "Enhancing Walmart's Future Technology Leadership"
+subtitle: "Global Data & AI Workforce Compensation Analytics"
 author: "Gaku Aihara, Emily Wang, Snehil Rayal"
 format:
   html:
     embed-resources: true
-editor:
-  markdown:
+editor: 
+  markdown: 
     wrap: 72
 ---
 
 # Executive Summary
+This report uses 71,913 exact-deduplicated compensation records from an
+August 2025 global AI and technology salary dataset to propose a focused
+executive-recruiting strategy for Libeccio Executive Search. Our strongest
+opportunity is specialist searches for senior machine-learning/AI and
+software-platform leaders, with technical product leadership as a secondary
+specialty. The data show substantial cross-sectional differences in base pay
+by role and experience tier, while a regression of on-site versus fully remote
+records finds a small estimated conditional remote-pay difference (−0.7%,
+95% CI approximately −1.69% to +0.24%). This estimate does not establish
+pay equivalence, a causal effect, or whether a specific role can be remote.
 
-This collaborative course project explores reported base salaries in the global
-Data Science and AI workforce using an **August 3, 2025** snapshot of the
-aijobs.net salary dataset. The supplied dataset contains 151,445 rows;
-removing exact row duplicates leaves **71,913 distinct records**. Because
-respondent identifiers are unavailable, distinct rows should not be
-interpreted as verified unique individuals.
-
-We examine salary distributions across career stages and technical role
-families, then estimate an adjusted association between remote status and
-log salary. Median salaries generally rise by experience level. The adjusted
-fully remote coefficient corresponds to an estimated **-0.7%** salary
-difference relative to on-site work (**p = 0.141**), which is not
-statistically distinguishable from zero at the 5% level. This does **not**
-prove that the two groups receive equal pay or establish a causal effect.
-
-The original assignment used **Walmart Global Tech as a hypothetical
-prospective recruiting client**, not as an actual client or an employer whose
-pay was directly observed. Company-specific recommendations are illustrative
-and require independent evidence before real-world use.
-
-**Explore the [interactive Shiny dashboard](https://4e3w5f-gaku-aihara.shinyapps.io/Libeccio_Career_Dashboard/)**
-for role-family filters, experience-level comparisons, and career progression
-summaries. Its underlying source code is not part of this report repository.
+We recommend approaching Walmart Global Tech as a **prospective pilot client**,
+not because its internal recruiting team is inadequate, but because its
+publicly documented AI and technology initiatives and senior technical job
+postings provide a plausible setting for targeted specialist search. Our
+salary dataset provides broad market context; Walmart's advertised role- and
+location-specific ranges provide a necessary employer-specific check.
+The proposed next step is one narrowly scoped search pilot, with a follow-up
+compensation study covering geography, bonuses, and equity before quoting
+exact total-pay packages or placement-fee forecasts.
 
 # 3 Core Questions
 
 Using our data we aim to answer these core questions:
 
-1. **How do reported compensation levels differ across Entry, Mid, Senior,
-   and Executive positions?**
+1.  **How does reported base salary differ by experience tier, from
+    Entry through Executive, across technical role families?**
 
-2. **Is fully remote status associated with a salary premium or penalty
-   after adjusting for observed covariates?**
+2.  **Is remote status associated with higher or lower reported base pay,
+    after accounting for observed role and experience differences?**
 
-3. **How do salaries differ by role and employer size, and how does the
-   partial-2025 snapshot compare with 2024?**
+3.  **Where do reported salary benchmarks differ by year and company
+    size, and what does that imply for choosing a recruiting client?**
 
-# 1. Data Scope and Credibility
+**How the questions fit together.** Question 1 identifies the senior role
+families for which targeted sourcing may create the most value. Question 2
+examines whether reported base salary differs by remote status, while
+recognizing that work arrangements and geographic pay policies remain
+role-specific. Question 3 evaluates the limits of interpreting employer size
+and recent-year patterns, so that we do not mistake patterns in an uneven
+survey for verified Walmart hiring needs. Section 4 combines the market
+findings with independently sourced Walmart-specific evidence.
 
-```{r setup, include=FALSE}
+```{r, include=FALSE}
 knitr::opts_chunk$set(
   echo = TRUE,
   warning = FALSE,
@@ -62,23 +65,43 @@ knitr::opts_chunk$set(
   fig.align = "center",
   dpi = 300
 )
+```
+
+# 1. Data Scope and Credibility
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+library(readr)
+library(dplyr)
+library(ggplot2)
+library(tidyr)
+library(janitor)
 library(tidyverse)
 library(scales)
 library(knitr)
+
+# Consistent role-family palette across comparisons.
+role_palette <- c(
+  "Data & BI Analyst" = "#4477AA",
+  "Data Engineering & Architecture" = "#228833",
+  "Data Scientist" = "#66CCEE",
+  "Machine Learning / AI" = "#CC6677",
+  "Product & Technical Leadership" = "#AA3377",
+  "Software & Platform Engineering" = "#CCBB44"
+)
 ```
 
 ```{r load-data, echo=FALSE}
-# By default, read the course-provided snapshot. A local copy can be placed
-# at data/salaries.csv.gz for offline rendering if its terms permit reuse.
-source_url <- paste0(
+salaries <- read_csv(paste0(
   "https://stat.cmu.edu/~sgallagh/courses/mads-fall-2026/",
   "datavis-36613/data/salaries.csv.gz"
-)
-source_file <- "data/salaries.csv.gz"
-salaries <- readr::read_csv(
-  if (file.exists(source_file)) source_file else source_url,
-  show_col_types = FALSE
-)
+))
+
+access_date <- Sys.Date()
+
+n_rows <- nrow(salaries)
+n_cols <- ncol(salaries)
+
 ```
 
 ## What does one row represent?
@@ -432,15 +455,36 @@ role_family_counts |>
   )
 ```
 
-We assigned 49,270 of 71,913 exact-deduplicated records (68.5%) to six
-role families using ordered, specialty-first keyword rules. Titles were
-classified only when their text identified a recognizable occupational
-function. Generic titles including Engineer, Manager, Analyst,
-Developer, Director, and Research Scientist remained unclassified
-because the archive contains no job descriptions with which to infer
-their function. The 22,643 unclassified records (31.5%) were excluded
-from role-family comparisons but retained in analyses that did not
-depend on role family.
+The six explicit role families contain **44,439 of 71,913**
+exact-deduplicated records (**61.8%**). The remaining **27,474 records
+(38.2%)** have an unclassified title. We deliberately leave general titles
+such as Engineer, Manager, Analyst, Developer, Director, and Research
+Scientist unclassified when the available title alone does not identify
+a functional specialty; this is preferable to inventing unsupported
+role labels. The classification therefore supports *comparisons among
+clearly identified roles*, not conclusions about the entire technology
+workforce. Unclassified titles remain in analyses that do not use role
+family; the regression appendix also provides a sensitivity check that
+retains them as their own category. A future iteration could audit the most
+frequent unclassified titles and incorporate verified job-description data.
+
+### Audit of unclassified job titles
+
+The most common unclassified titles are listed below to make the
+classification decision auditable. Some may deserve reassignment only
+after checking verified job descriptions; an unknown title is not
+automatically a low-skilled or unrelated role.
+
+```{r unclassified-title-audit, echo=FALSE}
+salaries_analysis |>
+  filter(role_family == "Other / unclassified") |>
+  count(job_title, sort = TRUE, name = "n") |>
+  slice_head(n = 15) |>
+  knitr::kable(
+    col.names = c("Unclassified Job Title", "Record Count"),
+    caption = "Most frequent titles left outside the six specific role families"
+  )
+```
 
 ## Cross-border sparsity
 
@@ -450,7 +494,7 @@ cross_border_summary <- salaries_analysis |>
     geography_type = if_else(
       employee_residence == company_location,
       "Domestic (Same Country)",
-      "Cross-Border (Different Countries)"
+      "Cross-Border (Remote International)"
     )
   ) |>
   count(geography_type) |>
@@ -466,11 +510,10 @@ knitr::kable(
 )
 ```
 
-Records with differing employee-residence and employer-location countries
-were too sparse to support robust geographic-arbitrage modeling. Different
-countries alone do not establish the employee's precise remote-work setup.
-Only 156 of 71,913 distinct records (0.2%) have different recorded
-residence and employer countries.
+Cross-border records (where employee residence is not the same as
+company location) were too sparse to support robust geographic-arbitrage
+modeling. Only 156 of 71,913 unique records (0.2%) represent
+cross-border employment relationships.
 
 ## Audit limits
 
@@ -506,6 +549,14 @@ residence and employer countries.
     opportunities.
 
 # 2. Compensation landscape
+
+**From data quality to an actionable benchmark.** Because the records are
+self-reported, strongly concentrated in a subset of years and employer
+sizes, and contain unusually high salaries, medians and interquartile
+ranges offer a more defensible first comparison than arithmetic means.
+We first establish which role families sit toward the upper end of the
+reported salary distribution, then investigate whether experience tier
+and work arrangement change that comparison.
 
 ```{r, echo=FALSE}
 family_audit <- salaries_analysis |>
@@ -545,13 +596,14 @@ high_earner_threshold <- 500000
 
 salaries_analysis |>
   filter(role_family != "Other / unclassified") |>
-  ggplot(aes(x = salary_in_usd, y = fct_reorder(role_family, salary_in_usd, median))) +
-  geom_boxplot(fill = "lightblue", color = "slategray", outlier.alpha = 0.2, outlier.size = 1.2) +
+  ggplot(aes(x = salary_in_usd, y = fct_reorder(role_family, salary_in_usd, median), fill = role_family)) +
+  geom_boxplot(color = "slategray", outlier.alpha = 0.2, outlier.size = 1.2, show.legend = FALSE) +
+  scale_fill_manual(values = role_palette) +
   geom_vline(xintercept = high_earner_threshold, linetype = "dashed", color = "firebrick", linewidth = 0.8) +
   annotate(
-    "text", x = 520000, y = 0.8, 
-    label = "Extreme Outlier Threshold ($500k+)", 
-    color = "firebrick", hjust = 0, fontface = "bold", size = 3.5
+    "text", x = 470000, y = 0.8,
+    label = "Extreme threshold: $500k+",
+    color = "firebrick", hjust = 1, fontface = "bold", size = 3.5
   ) +
   scale_x_log10(
     labels = label_dollar(),
@@ -633,6 +685,7 @@ role_experience_summary |>
   ggplot(aes(x = experience_level, y = median_salary, color = role_family, group = role_family)) +
   geom_line(linewidth = 1) +
   geom_point(size = 2.5) +
+  scale_color_manual(values = role_palette) +
   scale_y_continuous(labels = label_dollar()) +
   labs(
     title = "Reported salary rises across career tiers in every role family",
@@ -652,19 +705,14 @@ role_experience_summary |>
 
 ```
 
-This line plot displays the median annual reported base salary (USD) on
-the y-axis plotted across sequential experience tiers (Entry, Mid,
-Senior, Executive) on the x-axis, broken down by six distinct role
-families separated by different color lines. Machine Learning / AI
-($\$110,000$ Entry) and Product & Technical Leadership ($\$124,800$
-Entry) start as the highest salary benchmarks and maintain top-tier
-positioning through the Executive level ($\$205,000$+). Software &
-Platform Engineering shows the steepest slope, ascending from an Entry
-baseline of $~\$106,590$ to the highest Executive median in the dataset
-($\$210,000$+). Data & BI Analyst remains the lowest-paid role family at
-every career stage, starting at $\$81,000$ (Entry) and ending at
-$\$144,800$ (Executive), trailing ML/AI Executive levels by over
-$\$60,000$.
+The line chart compares **separate groups of workers**, not the
+compensation changes of the same people over time. Reported medians
+increase with experience tier across all six classified role families,
+and senior/executive roles are especially relevant for a specialist
+search practice. However, the gaps should not be described as actual
+promotion raises, expected career returns, or firm-specific offer
+budgets. The priority-role benchmark table in Section 4 supplies the
+corresponding sample sizes and exact SE/EX medians.
 
 ```{r, echo=FALSE}
 career_progression |>
@@ -714,11 +762,13 @@ Data Science Leadership at +18.9% (+$\$30,250$).
 
 ### Key findings
 
-The largest adjacent-tier differences in observed median salary occur in
-Data Engineering & Architecture and Data Science at earlier career stages.
-These are comparisons between groups of records, **not observed raises
-for individual workers**. They provide directional benchmarks rather than
-prescriptions for employer compensation budgets.
+Differences between experience groups vary by role family: the largest
+*percentage* step-up need not belong to the field with the highest
+*absolute* executive pay. Thus we should choose search priorities using
+both observed senior/executive compensation levels and evidence of
+client-specific business need, rather than using the heatmap to infer
+promotion budgets. This motivates the next question: whether expanding
+the sourcing geography would necessarily require a different pay band.
 
 ## Client Question 2: Is there a measurable remote work premium or remote penalty?
 
@@ -797,11 +847,11 @@ fully remote salaries but justifies the need for multiple regression.
 
 ### Regression Analysis
 
-To estimate an adjusted association between remote work and salary,
-we fit a log-linear model controlling for role family, experience level,
-company size, and work year. We use log salary to reduce the influence of large values
-and address some right-skewness, while checking model diagnostics for
-remaining assumption violations (see [Appendix](#appendix)). Our main
+To estimate the conditional association between remote status and
+reported base salary, we fit a log-linear model controlling for role
+family, experience level, company size, and work year. We take the natural log of salaries in order to satisfy
+linear assumptions, as the salary distribution appears severely
+right-skewed and heteroskedastic (see [Appendix](#appendix)). Our main
 covariate of interest is remote status as we want to determine whether
 remote employees face a compensation premium. The model controls for the
 other potential confounding variables including role family controlling
@@ -809,9 +859,15 @@ for pay variation across different fields, experience level controlling
 for difference in pay depending on seniority, company size controlling
 for wage premiums based on small, medium, and large companies, and
 lastly work year controlling for changing environmental factors over
-time. We only consider the six role families we have previously created
-as well as only on-site and fully remote observations. Categorical
-predictors are parametrized using dummy indicator variables.
+time. The primary model compares on-site with fully remote records within
+six explicitly classified role families. We initially set aside hybrid
+records because only 327 of the 71,913 deduplicated records are coded as
+hybrid, and the main question is the on-site versus fully remote
+contrast. This restriction makes the coefficient easier to interpret
+but may introduce selection bias. Below, a sensitivity model includes
+hybrid workers and the unclassified role family rather than assuming
+that their exclusion has no effect. Categorical predictors are encoded
+with dummy variables.
 
 ```{r, echo=FALSE}
 remote_model_data <- salaries_analysis |>
@@ -844,31 +900,89 @@ model_coefs <- summary(remote_salary_model)$coefficients |>
   select(Term, `Estimate (log)`, `Implied % Change`, `Std. Error`, `p-value`)
 
 knitr::kable(
-  head(model_coefs, 10),
+  head(filter(model_coefs, Term != "(Intercept)"), 10),
   caption = "Log-linear salary regression model coefficients (selected key variables)"
 )
 ```
 
-Conditional on the included role-family, experience, firm-size, and year
-indicators, the fully remote coefficient is estimated at $\hat{\beta} = -0.0073$,
-roughly a **-0.7%** association compared with on-site records. The
-estimate is not statistically significant ($t = -1.47$, $p = 0.141$);
-the reported 95% interval for the transformed percentage difference is
-approximately **-1.69% to +0.24%**. The data do not provide sufficient
-evidence of a nonzero conditional association at $\alpha = 0.05$.
-They do not prove pay equivalence.
+Holding role family, experience tier, company size, and work year constant, fully remote status exhibits an estimated coefficient of $\hat{\beta} = -0.0073$, corresponding to an implied salary difference of -0.7% compared to on-site roles.
+This coefficient is statistically insignificant ($t = -1.47, p = 0.141$). The 95% confidence interval for the remote status coefficient ranges from -1.69% to +0.24%. Because zero is included in this interval and the $p$-value exceeds $\alpha = 0.05$, we fail to reject the null hypothesis of equal pay.
+By contrast, experience tier and role family show much larger estimated conditional pay associations. In the fitted model, Executive records have an estimated **+90.4%** difference ($\hat{\beta} = 0.6439, p < 0.001$) relative to Entry-level records, while Machine Learning / AI has a **+50.5%** estimated difference ($\hat{\beta} = 0.4086, p < 0.001$) over the Data & BI Analyst baseline.
 
-The model also shows large conditional differences in reported salaries
-across career levels and role families; these are associations, not
-causal salary premiums.
+### Sensitivity check: hybrid workers and unclassified roles
+
+The instructor's feedback raises a reasonable concern: excluding hybrid
+workers and generic job titles could change the adjusted association.
+We therefore compare the original two-group model with a second model
+that retains all three remote categories and the unclassified role
+family. A third model restricts the original comparison to US-resident
+workers at US-based employers, closer to the proposed Walmart use case.
+In all models, *On-site* remains the reference group; the reported
+coefficient is the fully remote versus on-site contrast.
+
+```{r remote-sensitivity, echo=FALSE}
+remote_all_data <- salaries_analysis |>
+  filter(salary_in_usd > 0) |>
+  mutate(
+    remote_status = factor(
+      case_when(
+        remote_ratio == 0 ~ "On-site",
+        remote_ratio == 50 ~ "Hybrid",
+        remote_ratio == 100 ~ "Fully remote"
+      ),
+      levels = c("On-site", "Hybrid", "Fully remote")
+    ),
+    experience_level = factor(experience_level, levels = c("EN", "MI", "SE", "EX")),
+    company_size = factor(company_size, levels = c("S", "M", "L")),
+    work_year = factor(work_year)
+  )
+
+remote_all_model <- lm(
+  log(salary_in_usd) ~ remote_status + role_family +
+    experience_level + company_size + work_year,
+  data = remote_all_data
+)
+
+remote_us_data <- remote_model_data |>
+  filter(employee_residence == "US", company_location == "US")
+
+remote_us_model <- lm(
+  log(salary_in_usd) ~ remote_status + role_family +
+    experience_level + company_size + work_year,
+  data = remote_us_data
+)
+
+summarize_remote_coefficient <- function(model, label) {
+  term <- "remote_statusFully remote"
+  beta <- unname(coef(model)[term])
+  ci <- confint(model, parm = term)
+  tibble(
+    Model = label,
+    N = comma(nobs(model)),
+    `Adjusted remote difference` = percent(exp(beta) - 1, accuracy = 0.1),
+    `95% CI, low` = percent(exp(ci[1]) - 1, accuracy = 0.1),
+    `95% CI, high` = percent(exp(ci[2]) - 1, accuracy = 0.1)
+  )
+}
+
+bind_rows(
+  summarize_remote_coefficient(remote_salary_model, "Classified, on-site vs fully remote"),
+  summarize_remote_coefficient(remote_all_model, "All roles and all remote categories"),
+  summarize_remote_coefficient(remote_us_model, "US-to-US, classified, on-site vs fully remote")
+) |>
+  knitr::kable(caption = "Sensitivity of adjusted fully remote versus on-site salary estimate")
+```
 
 ### Key findings
 
-In this specification, the observed fully remote difference is small
-and not statistically significant after adjustment. The result should
-not be used alone to set remote-work compensation policy: geography,
-selection into remote work, unobserved company characteristics, and
-non-salary compensation may also matter.
+In the primary specification, the fully remote coefficient is small
+(−0.7%) and its confidence interval includes zero. This does **not**
+prove that salaries are equivalent or that remote recruiting requires
+no additional compensation. The sensitivity table shows whether the
+estimate changes when omitted groups are retained. Any nationwide
+sourcing recommendation must also consider occupation, candidate
+location, the position's permitted work arrangements, and Walmart's
+published location-specific compensation bands.
 
 
 ## Client Question 3: Where are salaries growing, and which specific roles and company sizes present the best opportunities for executive recruiting?
@@ -900,7 +1014,7 @@ career_size_summary |>
   # Dynamic text color: black text on bright yellow tiles, white text on dark tiles
   geom_text(
     aes(
-      label = dollar(median_salary),
+      label = paste0(dollar(median_salary), "\nn=", comma(n)),
       color = median_salary > 170000
     ),
     fontface = "bold",
@@ -917,13 +1031,13 @@ career_size_summary |>
       title = "Median Salary",
       title.position = "top",
       title.hjust = 0.5,
-      barwidth = grid::unit(12, "lines"),
-      barheight = grid::unit(0.6, "lines")
+      barwidth = unit(12, "lines"),
+      barheight = unit(0.6, "lines")
     )
   ) +
   labs(
     title = "Median salary rises by career tier across employer sizes",
-    subtitle = "Medium-sized companies show higher executive pay baselines ($190k) than large firms ($141k).",
+    subtitle = "Descriptive medians only; sample sizes vary sharply across employer-size groups.",
     x = "Experience Tier",
     y = "Employer Size",
     caption = "Source: aijobs.net salary snapshot (Aug 3, 2025). Deduplicated sample."
@@ -940,17 +1054,16 @@ career_size_summary |>
   )
 ```
 
-The figure above is a 2D heatmap that illustrates median base salaries
-across three company sizes (y-axis) and four seniority levels (x-axis),
-with color intensity reflecting salary scale. While pay generally
-increases with seniority, company size heavily influences peak executive
-earnings. Mid-sized businesses (50–250 employees) lead the market with a
-median executive salary of $\$190,000$, significantly outperforming
-large corporations ($\$140,973$) and small businesses ($\$120,000$).
-Because almost all records come from medium-sized employers, these
-between-size comparisons are descriptive and should not be generalized
-to the employer market without checking group sample sizes and selection
-bias.
+The heatmap compares reported base-salary medians by company-size
+category and experience tier. Medium-sized employers show a higher
+executive median ($190,000) than large employers ($140,973) in **this
+sample**, but 97.5% of the deduplicated observations come from the
+medium category and just 2.2% from the large category. Consequently,
+these differences may reflect uneven coverage, occupation mix, or other
+unobserved variables. The chart cannot establish that mid-sized
+companies have greater willingness to pay, or that these are suitable
+compensation bands for Walmart, which belongs to a much larger and
+different employer group. Cell labels now show the relevant n.
 
 ```{r, echo=FALSE}
 year_role_summary <- salaries_analysis |>
@@ -973,10 +1086,11 @@ year_role_summary |>
   ggplot(aes(x = work_year_label, y = median_salary, color = role_family, group = role_family)) +
   geom_line(linewidth = 1.1) +
   geom_point(size = 3) +
+  scale_color_manual(values = role_palette) +
   scale_y_continuous(labels = label_dollar()) +
   labs(
-    title = "Salary benchmarks across most role families soft in partial 2025",
-    subtitle = "Comparison of median annual base salary between 2024 full year and 2025 YTD snapshot.",
+    title = "Reported role-family medians differ between full 2024 and partial 2025",
+    subtitle = "Separate yearly samples: full-year 2024 versus partial 2025, not worker-level changes.",
     x = NULL,
     y = "Median Base Salary (USD)",
     color = "Role Family",
@@ -991,67 +1105,96 @@ year_role_summary |>
   )
 ```
 
-This figure compares cross-sectional medians of annual nominal base salary
-across six role families for full-year
-2024 to partial 2025 (snapshot through August 3, 2025). Comparing 2024
-full-year benchmarks to partial 2025 entries reveals that Product &
-Technical Leadership is the only domain showing clear pay expansion
-(rising toward $\$166,000$). Machine Learning / AI holds steady at the
-top market threshold ($\sim\$175,000$), while foundational analytics and
-core engineering roles show mild softening in partial 2025. Even though
-Machine Learning / AI roles require smaller budget allocations for
-salary increases from senior to executive levels, the roles have the
-greatest salaries overall. Additionally, even though Data & BI Analyst
-roles offer the highest relative returns on senior-career promotion
-budgets, their overall salary benchmarks tend to be significantly lower
-than other roles.
+This chart compares *two groups of records*—all of 2024 and only the
+portion of 2025 present by August 3. It is not a longitudinal panel of
+workers or employers. Product & Technical Leadership has a higher
+reported 2025 median than in 2024, whereas several other families are
+lower, but shifts in occupation, geography, company size, or response
+composition could explain these patterns. They should therefore be
+presented as tentative survey benchmarks, not definitive evidence of
+salary inflation, market-wide cooling, or accelerating hiring demand.
 
 ### Key findings
 
-The sample suggests comparatively high medians in some medium-company
-and leadership groups, but it cannot establish employer willingness to
-pay or future recruitment demand. The 2025 records cover only part of
-the year, so comparisons with 2024 should be read as snapshot contrasts,
-not sustained year-over-year growth rates.
+The company-size and year comparisons are useful for generating
+hypotheses, but their uneven sample composition prevents strong claims
+about the most profitable clients or fastest-growing hiring markets.
+To choose a particular client, we need evidence outside the salary
+archive: documented technology priorities, recognizable senior openings,
+and location-specific posted compensation. We now apply that standard
+to a potential Walmart Global Tech pitch.
 
 # 4. Recruiting Playbook
 
-## Target Employer
+## Target Employer: Why Walmart Global Tech?
 
-As part of the class consulting scenario, the team selected **Walmart
-Global Tech** as a *proposed* enterprise employer for a hypothetical
-executive-search pitch. The aim was to connect the descriptive salary
-analysis to a real-world technology workforce case study.
+**Why this client, rather than a generic large corporation?** Walmart
+is investing in technology-intensive capabilities with direct links to
+our salary analysis: AI, software platforms, supply-chain systems, and
+e-commerce. Its [FY2026 Form 10-K](https://stock.walmart.com/sec-filings/all-sec-filings/content/0000104169-26-000055/wmt-20260131.htm)
+reports \$16.468 billion of U.S. capital expenditures in a *combined*
+category comprising supply chain, customer-facing initiatives,
+technology, and other items. This supports the scale of the operational
+investment, but is **not** a stand-alone technology budget or evidence
+of a specific executive-search contract.
 
-The supplied salary dataset contains **no company names or job openings**,
-so these results cannot independently establish Walmart's specific hiring
-needs, recruitment challenges, salary bands, vendor budgets, or willingness
-to pay recruiting fees. Public company information discussed in the
-original presentation is contextual; any actual sales recommendation
-would require current, independently verified employer-specific research.
+**What indicates potential searches?** The following Walmart career
+postings were consulted in October 2026, after the 2025 salary snapshot.
+Walmart's publicly advertised
+[Group Director, Software Engineering — Applied AI](https://careers.walmart.com/us/en/jobs/R-2599274)
+role describes leadership across foundational models, machine-learning
+teams, and commercial applications such as search, advertising, and
+supply-chain forecasting. The advertised annual **base-pay bands** are
+\$195,000–\$370,000 in Bentonville and \$254,000–\$481,000 in Sunnyvale.
+A separate [Director, Software Engineering](https://careers.walmart.com/us/en/jobs/R-2640730)
+posting lists \$130,000–\$260,000 in Bentonville and \$169,000–\$338,000
+in Sunnyvale. These are employer-posted ranges, **not** observed pay,
+hire counts, or measured recruiting difficulty; listings may change.
+They demonstrate that Walmart recruits for the kinds of senior,
+location-sensitive roles relevant to Libeccio's proposed specialty.
+
+**Why might an outside search firm add value despite Walmart's internal
+recruiting organization?** We should not argue that Walmart's recruiters
+lack executive-search skills without evidence. A more defensible
+proposition is *complementary specialization*: Libeccio could undertake
+one agreed-upon hard-to-source senior AI or platform leadership search,
+research passive candidates across technology markets, compare
+location-specific compensation expectations, and deliver a qualified
+shortlist. The Bentonville-versus-Sunnyvale pay bands highlight a
+practical challenge for offer strategy; they do **not** imply Walmart
+permits every role to be fully remote or that a national candidate
+search will preserve the same salary budget.
+
+**What would earn the business?** Start with a limited-scope pilot,
+subject to confirmation that Walmart has an unmet recruiting need and
+is willing to use an external firm. Define the target role, work
+location, compensation package, passive-candidate profile, outreach
+coverage, and measurable shortlist or time-to-fill outcomes before
+negotiating an ongoing relationship. Our salary study helps frame
+questions for this pitch, while the Walmart-specific sources establish
+why the prospect deserves further consideration. It does not establish
+that Walmart has agreed to engage Libeccio or needs an external recruiter.
 
 ## Priority Roles and Experience Tiers
 
-Libeccio will focus its sales and recruiting efforts exclusively on
-Senior (SE) and Executive (EX) roles in three specific areas. These
-focus areas match the highest-paying, fastest-growing roles in our
-dataset and align directly with Walmart's technical roles.
+Our proposed **primary specialty** is senior and executive ML/AI and
+software-platform leadership. These are related capabilities rather
+than three unrelated recruiting businesses: applied AI requires both
+model-building expertise and the engineering platforms needed to
+operate systems reliably at scale. Product & Technical Leadership is
+an adjacent, selective specialty where Walmart's specific open roles
+call for it. Data Engineering & Architecture is a supporting talent
+pipeline worth evaluating because of its relevance to platform and
+supply-chain data systems.
 
-**Product & Technical Leadership**, **Machine Learning / AI**, and
-**Software & Platform Engineering** were chosen for illustrative
-recruiting pipelines because the role-family summaries show high
-reported medians. For example, Machine Learning / AI reports a median
-of about \$170,042 across experience tiers, while the Software &
-Platform Engineering summary shows a large Senior-to-Executive median
-salary gap. These are broad survey categories, not employer-specific
-role descriptions or observed promotion raises.
-
-As the needs of Walmart evolve over the years, Libeccio can become a
-trusted partner and develop a personalized relationship with Walmart. By
-maintaining relationships with qualified senior candidates and adapting
-to the needs of Walmart's technical priorities, we intend to form a
-reliable partnership with them rather than maximizing the short-term
-value on placement.
+The archive's overall medians are \$170,042 for Machine Learning / AI,
+\$159,000 for Software & Platform Engineering, and \$163,925 for Product
+& Technical Leadership. More relevant to the proposed search niche,
+the **executive-tier** median within these groups is \$203,350,
+\$193,490, and \$205,050 respectively, with sample sizes of 152,
+187, and 316. These are descriptive medians across the full dataset,
+not exact estimates of what Walmart should offer. Employer location,
+responsibility, equity, and bonuses must be evaluated independently.
 
 ## Salary Benchmarks
 
@@ -1097,32 +1240,53 @@ knitr::kable(
 )
 ```
 
-These sample medians offer directional reference points for the
-hypothetical search strategy. They do not reveal Walmart-specific salary
-bands, hiring budgets, or what a recruiter could charge.
+In the generated benchmark table, median Senior-tier base salaries
+range from **\$172,625 to \$184,000**, and median Executive-tier base
+salaries range from **\$193,490 to \$205,050** across the three proposed
+families. The subgroup sample sizes, especially in the Executive tier,
+should accompany these figures. These are directional survey medians,
+not evidence of Walmart's actual offers, total compensation, or
+recruiter placement fees; Walmart's published location-specific
+job bands offer an additional, employer-specific reference.
 
 ## Search Strategy
 
-The team's original proposal distinguished core, selective,
-experimental, and deferred recruiting opportunities. As an analytical
-extension, a recruiter could use role-family medians to **prioritize
-questions** about senior and executive compensation, while validating
-current demand, location, equity compensation, and exact titles against
-employer-specific sources before making commitments.
+Libeccio should **offer Walmart a tightly scoped pilot search** focused
+on one senior AI / machine-learning or platform-engineering leadership
+position. Begin by confirming the role's business owner, location and
+work-arrangement requirements, essential skills, reporting scope,
+compensation structure, and whether outside sourcing is desired.
 
-The analysis does not estimate search fees, hiring costs, or causal
-salary gains, and the absence of a statistically significant remote
-coefficient should not be interpreted as permission to ignore geographic
-compensation differences.
+The immediate deliverable would be a market map of relevant talent,
+compensation comparisons segmented by geography and seniority, and a
+shortlist of qualified candidates who meet the agreed criteria. A
+successful pilot could create an opening for adjacent product or data
+engineering searches, but longer-term client value and repeat business
+should be framed as goals rather than guaranteed outcomes.
+
+Use the **survey's role/experience medians to set initial research
+questions**, and Walmart's advertised bands and validated
+bonus/equity benchmarks to determine actual offer competitiveness.
+Reject claims about automatic remote-pay savings, fixed placement fee
+margins, or which roles are definitively most profitable: those require
+information that the current dataset does not contain.
 
 ## Next Data Source
 
-This snapshot reports base salary, not total compensation. It does not
-include stock grants, sign-on bonuses, annual bonuses, or other benefits.
-For a production-grade recruiting study, the next step would be to
-incorporate a transparently sourced total-compensation dataset, as well
-as current employer-specific pay bands and job demand. Any commercial
-data source would need to be assessed for coverage and licensing.
+The compensation archive contains annual nominal base salary but not
+restricted stock units, annual bonuses, sign-on awards, or other forms
+of compensation. A next-stage offer study should obtain a consistent
+source of total-compensation benchmarks (for example, Pave, Levels.fyi,
+or an employer-sponsored compensation survey), verify the methodology
+and licensing terms, and combine it with role- and location-specific
+Walmart salary bands. Only then could Libeccio build credible offer
+scenarios or negotiate a placement-fee structure grounded in the
+expected scope of the search.
+
+**Bottom line:** the evidence supports a targeted *prospective-client
+pitch* and an AI/platform leadership search hypothesis—not a claim that
+Walmart has a recruiting deficiency, that remote pay is universally
+identical, or that the archive measures hiring demand.
 
 # Appendix {#appendix}
 
@@ -1132,7 +1296,7 @@ ggplot(salaries_analysis, aes(x = salary_in_usd)) +
   scale_x_continuous(labels = scales::label_dollar(scale = 1e-3, suffix = "k")) +
   scale_y_continuous(labels = scales::comma) +
   labs(
-    title = "Distribution of Annual Salaries for Remote and On-Site Roles",
+    title = "Distribution of Annual Base Salaries (All Remote Categories)",
     x = "Annual Base Salary (USD)",
     y = "Number of Job Records"
   ) +
@@ -1162,9 +1326,8 @@ ggplot(salaries_analysis, aes(x = log(salary_in_usd))) +
 ```
 
 ```{r, echo=FALSE}
-old_par <- par(mfrow = c(2, 2))
+par(mfrow = c(2,2))
 plot(remote_salary_model)
-par(old_par)
 ```
 
 ```{r, echo=FALSE}
@@ -1181,4 +1344,17 @@ est <- coef(remote_salary_model)["remote_statusFully remote"]
 ci  <- confint(remote_salary_model, "remote_statusFully remote")
 exp(est) - 1
 exp(ci) - 1
+```
+
+## Reproducibility and analytical decisions
+
+- **Source data:** [Course-hosted aijobs.net salary CSV](https://stat.cmu.edu/~sgallagh/courses/mads-fall-2026/datavis-36613/data/salaries.csv.gz); reported salary snapshot through August 3, 2025. Rechecked when the report is rendered: `r format(access_date, "%Y-%m-%d")`. The remote host could change; save a permitted versioned data copy or checksum for archival reproducibility.
+- **Unit:** One salary record in the supplied archive. This is neither a verified unique employee nor a posted job opening.
+- **Cleaning:** `distinct()` across all 11 supplied columns removes exact duplicate records (151,445 to 71,913); it cannot identify unique people. Role-family assignment uses ordered title-based keyword rules shown in the source code; unknown roles are not silently imputed.
+- **Salary measure:** `salary_in_usd`, nominal annual base salary, not cost-of-living adjusted and not total pay. Reported local-currency conversions are checked descriptively, not re-estimated.
+- **Inference:** The main remote model compares on-site and fully remote classified records; the sensitivity model retains hybrid and unclassified rows. Neither model identifies a causal effect or controls for city-level geography.
+- **Limitations:** Large-company, hybrid, cross-border, executive subgroups, and 2025 partial-year comparisons require special caution. External Walmart descriptions are sourced separately from the salary survey and must be revalidated when job postings change.
+
+```{r reproducibility-session-info, echo=FALSE}
+sessionInfo()
 ```
